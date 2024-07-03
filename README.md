@@ -45,6 +45,7 @@ Posteriormente para configurar las tarjetas de red y enviar el tráfico. Es impo
 sudo ethtool -K [NIC0] ntuple on
 sudo ethtool -L [NIC0] combined 5
 sudo ethtool -N [NIC0] flow-type udp4 action 1 #Filtro UDP4 a la cola 1
+sudo ethtool -N [NIC0] flow-type tcp4 action 2 #Filtro TCP4 a la cola 2
 sudo ifconfig [NIC0] [IP0]
 sudo ifconfig [NIC1] [IP1]
 ```
