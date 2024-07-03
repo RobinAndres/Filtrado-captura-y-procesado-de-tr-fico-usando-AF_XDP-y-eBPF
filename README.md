@@ -47,14 +47,29 @@ sudo ethtool -L [NIC0] combined 5
 sudo ethtool -N [NIC0] flow-type udp4 action 1 #Filtro UDP4 a la cola 1
 sudo ifconfig [NIC0] [IP0]
 sudo ifconfig [NIC1] [IP1]
+```
+En otra consola se envían los paquetes.
+```bash
 sudo ./send10.bash [Número de paquetes a enviar] [núcleos de la cpu] #Script para generar tráfico con PKTGEN
 ```
 ## Escenario 2
-
-
-## Escenario 3
-Para ejecutar el programa de flujos, previamente es necesario cambiar el nombre de la NIC en la variable macro
+Para este escenario 2 es necesario 
 ```bash
+sudo ip link set dev enp3s0f0 xdp off'
+sudo ./af_xdp_user -d [NIC0] -Q 0 --filename xdp_echo.o --progsec xdp_echo
+```
+Para generación de tráfico
+```bash
+sudo ethtool -K enp3s0f0 ntuple on
+sudo ethtool -L [NIC0] combined 1 #Se unifican las colas a una
+sudo ifconfig [NIC0] [IP0]
+sudo ifconfig [NIC1] [IP1]
+sudo ./send10.bash [Número de paquetes a enviar] [núcleos de la cpu] #Script para generar tráfico con PKTGEN
+```
+## Escenario 3
+Para ejecutar el programa de flujos, previamente es necesario cambiar el nombre de la NIC en la macro #define ITFNAME del archivo flujos/src/dp.c
+```bash
+sudo ethtool -L [NIC0] combined 1 #Se unifican las colas a una
 sudo ./bin/flujos
 ```
 E instantáneamente se ejecuta el script de PKTGEN o tcpreplay con cualquier captura de traza. En nuestro caso:
