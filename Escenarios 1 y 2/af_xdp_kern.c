@@ -26,7 +26,7 @@ int xdp_sock_prog(struct xdp_md *ctx)
 		return bpf_redirect_map(&xsks_map, index, 0);
 	}
 	if (index==2){
-		return XDP_PASS;
+		return XDP_DROP;
 	}
 	
     return XDP_PASS;
