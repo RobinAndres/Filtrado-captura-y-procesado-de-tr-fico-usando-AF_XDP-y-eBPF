@@ -34,7 +34,7 @@ sudo insmod ./pktgen.ko
 ```
 
 ## Escenario 1
-Para el escenario 1, estando en la carpeta y una vez compilado.
+Para el escenario 1, estando en la carpeta y una vez compilado a través del makefile.
 ```bash
 sudo ip link set dev [NIC0] xdp off
 sudo ./af_xdp_user -d [NIC0] -Q [número de cola] --filename af_xdp_kern.o
@@ -53,12 +53,12 @@ En otra consola se envían los paquetes.
 sudo ./send10.bash [Número de paquetes a enviar] [núcleos de la cpu] #Script para generar tráfico con PKTGEN
 ```
 ## Escenario 2
-Para este escenario 2 es necesario 
+Para este escenario 2 es necesario compilar y cargar el archivo xdp_echo.o.
 ```bash
 sudo ip link set dev enp3s0f0 xdp off'
 sudo ./af_xdp_user -d [NIC0] -Q 0 --filename xdp_echo.o --progsec xdp_echo
 ```
-Para generación de tráfico
+Para generación de tráfico.
 ```bash
 sudo ethtool -K enp3s0f0 ntuple on
 sudo ethtool -L [NIC0] combined 1 #Se unifican las colas a una
